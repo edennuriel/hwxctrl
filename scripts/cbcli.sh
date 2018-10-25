@@ -64,16 +64,29 @@ echo
 
 cbadd_recipe() {
 
-  [[ -z "$1" ]] && echo "Usage: ${FUNCNAME[0]} <url/file> [pre|post] [name]" 
+  [[ -z "$1" ]] && echo "Usage: ${FUNCNAME[0]} <url/file> [1|2|3|4] [name]" 
   recf=$(readlink -m $1)
   [[ -f $recf ]] && export rec=" from-file --file $recf " 
   [[ $(wget "$1" -o /tmp/url > /dev/null 2>&1) == 0 ]] && export rec=" from-url --url $1 "
   [[ -z $rec ]] && "must provide a bp file or uril" && return
-  rtype="${2:-pre-ambari-start}"
+  case "${2:-1}" in 
+  1)
+    rtype=pre-ambari-start
+    ;;
+  2)
+    rtype=post-ambari-start
+    ;;
+  3)
+    rtype=post-cluster-install
+    ;;
+  4)
+    rtype=pre-termination
+    ;;
+  esac
   rec_name=$(basename "$rec")
   rec_name=${rec_name/.*}
-  cb recipe delete --name ${3:-$rec_name}
-  cb recipe create $rec --execution-type $rtype --name ${3:-$rec_name}
+  cb recipe delete --name ${3:-$rec_name} >/dev/null 2>&1
+  cb recipe create $rec --execution-type $rtype --name ${3:-$rec_name} >/dev/null 2>&1
 }
 
 cb_get_args() {

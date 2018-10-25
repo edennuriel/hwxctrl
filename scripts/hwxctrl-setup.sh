@@ -22,7 +22,7 @@ install_docker() {
   dolog usermod -aG docker centos
   dolog usermod -aG docker cloudbreak
   echo In order to run docker as centos you need to restart the vm
-  dolog echo net.ipv4.ip_forward = 1 >> /etc/sysctl.conf
+  echo net.ipv4.ip_forward = 1 >> /etc/sysctl.conf
   sudo sysctl -w net.ipv4.ip_forward=1
 }
 

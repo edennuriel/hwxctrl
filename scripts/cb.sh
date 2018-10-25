@@ -45,6 +45,7 @@ EOF
 install_cbcli() {
   cb_prms
   curl -Ls https://s3-us-west-2.amazonaws.com/cb-cli/cb-cli_${cbver}_Linux_x86_64.tgz | sudo tar -xz -C /usr/local/bin cb
+  addpath /usr/local/bin profile
   cb configure --server $(hostname --ip-address):$HTTPS_PORT --username ${user} --password ${password:-admin}
 }
 

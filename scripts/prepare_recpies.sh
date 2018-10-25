@@ -26,7 +26,7 @@ done
 update_cb() {
   cbadd_recipe $tmp/amb-pre.sh
   cbadd_recipe $tmp/all-pre.sh
-  cbadd_recipe $tmp/amb-post.sh post-ambari-start
+  cbadd_recipe $tmp/amb-post.sh 3
 }
 
 update_cb

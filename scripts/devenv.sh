@@ -50,9 +50,9 @@ install_ruby_dev() {
   update_bash_profile 'eval "$(rbenv init -)"' 
   #>2.2.2 required for hub
   eval "$(rbenv init -)"
-  dolog rbenv install -v 2.5.1 
-  dolog rbenv global 2.5.1
-  gem install bundler
+  doq rbenv install -v 2.5.1 
+  doq rbenv global 2.5.1
+  doq gem install bundler
 }
 
 install_hub() {
