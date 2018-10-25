@@ -1,0 +1,17 @@
+{
+  "cloudPlatform": "OPENSTACK",
+  "description": "",
+  "name": "{{ environ('NAME')|default('enops',True)}}",
+  "parameters": {
+    "endpoint": "{{ environ('URL') | default('http://field.hortonworks.com:5000/v3',True) }}",
+    "facing": "internal",
+    "keystoneAuthScope": "cb-keystone-v3-project-scope",
+    "selector": "cb-keystone-v3-project-scope",
+    "keystoneVersion": "cb-keystone-v3",
+    "password": "{{environ('PASSWORD') | default('password',True)}}",
+    "userDomain": "Default",
+    "userName": "{{ environ('USER') | default('enuriel',True)}}",
+    "projectDomainName": "Default",
+    "projectName": "{{ environ('PROJECT') | default('SE',True)}}"
+  }
+}

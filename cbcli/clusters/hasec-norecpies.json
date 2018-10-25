@@ -1,0 +1,142 @@
+{
+  "inputs": {},
+  "general": {
+    "credentialName": "enops",
+    "name": "hasecbase'
+  },
+  "placement": {
+    "region": "RegionOne",
+    "availabilityZone": "SE"
+  },
+  "tags": {
+    "userDefinedTags": {}
+  },
+  "cluster": {
+    "ambari": {
+      "blueprintName": "Security_HA_3",
+      "platformVersion": "HDP 3.0.1",
+      "ambariRepoDetailsJson": {
+        "version": "2.7.1.0",
+        "baseUrl": "http://public-repo-1.hortonworks.com/ambari/centos7/2.x/updates/2.7.1.0",
+        "gpgKeyUrl": "http://public-repo-1.hortonworks.com/ambari/centos7/2.x/updates/2.7.1.0/RPM-GPG-KEY/RPM-GPG-KEY-Jenkins"
+      },
+      "ambariStackDetails": {
+        "version": "3.0.1",
+        "verify": false,
+        "enableGplRepo": true,
+        "stack": "HDP",
+        "repositoryVersion": "3.0.1.0-187",
+        "versionDefinitionFileUrl": "http://public-repo-1.hortonworks.com/HDP/centos7/3.x/updates/3.0.1.0/HDP-3.0.1.0-187.xml",
+        "stackOs": "centos7",
+        "mpacks": [
+          {
+            "name": "hdf32"
+          }
+        ]
+      },
+      "userName": "admin",
+      "password": "admin1234",
+      "validateBlueprint": false,
+      "ambariSecurityMasterKey": "",
+      "enableSecurity": false
+    },
+    "sharedService": {},
+    "rdsConfigNames": []
+  },
+  "imageSettings": {
+    "imageCatalog": "cloudbreak-default",
+    "imageId": "4dd884b3-d616-471c-53f8-0fdca7bd8314"
+  },
+  "imageType": "base",
+  "instanceGroups": [
+    {
+      "parameters": {},
+      "template": {
+        "parameters": {
+          "encrypted": false
+        },
+        "instanceType": "m3.xlarge",
+        "volumeType": "HDD",
+        "volumeCount": 0,
+        "volumeSize": 100
+      },
+      "nodeCount": 1,
+      "group": "host_group_2",
+      "type": "CORE",
+      "recoveryMode": "MANUAL",
+      "recipeNames": [
+        "all-pre"
+      ],
+      "securityGroup": {
+        "securityGroupId": "12f286c3-5c42-43e0-8320-31b4a94cc226"
+      }
+    },
+    {
+      "parameters": {},
+      "template": {
+        "parameters": {
+          "encrypted": false
+        },
+        "instanceType": "m3.2xlarge",
+        "volumeType": "HDD",
+        "volumeCount": 0,
+        "volumeSize": 100
+      },
+      "nodeCount": 1,
+      "group": "host_group_1",
+      "type": "GATEWAY",
+      "recoveryMode": "MANUAL",
+      "securityGroup": {
+        "securityGroupId": "12f286c3-5c42-43e0-8320-31b4a94cc226"
+      }
+    },
+    {
+      "parameters": {},
+      "template": {
+        "parameters": {
+          "encrypted": false
+        },
+        "instanceType": "m3.xlarge",
+        "volumeType": "HDD",
+        "volumeCount": 0,
+        "volumeSize": 100
+      },
+      "nodeCount": 1,
+      "group": "host_group_4",
+      "type": "CORE",
+      "recoveryMode": "MANUAL",
+      "securityGroup": {
+        "securityGroupId": "12f286c3-5c42-43e0-8320-31b4a94cc226"
+      }
+    },
+    {
+      "parameters": {},
+      "template": {
+        "parameters": {
+          "encrypted": false
+        },
+        "instanceType": "m3.xlarge",
+        "volumeType": "HDD",
+        "volumeCount": 0,
+        "volumeSize": 100
+      },
+      "nodeCount": 1,
+      "group": "host_group_3",
+      "type": "CORE",
+      "recoveryMode": "MANUAL",
+      "securityGroup": {
+        "securityGroupId": "12f286c3-5c42-43e0-8320-31b4a94cc226"
+      }
+    }
+  ],
+  "network": {
+    "parameters": {
+      "subnetId": "aa7c8bb9-0152-46b9-8596-935baca704a0",
+      "networkingOption": "provider",
+      "networkId": "71a870bb-191c-4abe-bf02-ece2e9b3345c"
+    }
+  },
+  "stackAuthentication": {
+    "publicKeyId": "field"
+  }
+}

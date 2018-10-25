@@ -1,0 +1,6 @@
+
+alias utils="vi utils.sh ; source utils.sh"
+alias devenv="vi devenv.sh ; source devenv.sh"
+alias cb="vi cb.sh ; source cb.sh"
+alias cbcli="vi cbcli.sh ; source cbcli.sh"
+alias cloudclis="vi cloudclis.sh ; source cloudclis.sh"

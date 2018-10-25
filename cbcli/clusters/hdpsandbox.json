@@ -1,0 +1,138 @@
+{
+  "general": {
+    "credentialName": "enops",
+    "name": "enhdp"
+  },
+  "placement": {
+    "region": "RegionOne",
+    "availabilityZone": "SE"
+  },
+  "tags": {
+    "userDefinedTags": {}
+  },
+  "cluster": {
+    "ambari": {
+      "blueprintName": "Data Science: Apache Spark 2, Apache Zeppelin",
+      "platformVersion": "HDP 2.6",
+      "ambariStackDetails": {
+        "version": "2.6",
+        "verify": false,
+        "enableGplRepo": false,
+        "stack": "HDP",
+        "stackOs": "centos7",
+        "mpacks": []
+      },
+      "userName": "admin",
+      "password": "",
+      "gateway": {
+        "enableGateway": false,
+        "gatewayType": "INDIVIDUAL"
+      },
+      "validateBlueprint": false,
+      "ambariSecurityMasterKey": ""
+    },
+    "rdsConfigNames": []
+  },
+  "imageSettings": {
+    "imageCatalog": "cloudbreak-default",
+    "imageId": "650ab648-0d82-4115-7ef0-0f15f894aea0"
+  },
+  "imageType": "prewarmed",
+  "instanceGroups": [
+    {
+      "parameters": {},
+      "template": {
+        "parameters": {
+          "encrypted": false
+        },
+        "instanceType": "m3.xlarge",
+        "volumeType": "HDD",
+        "volumeCount": 0,
+        "volumeSize": 100
+      },
+      "nodeCount": 1,
+      "group": "master",
+      "type": "GATEWAY",
+      "recoveryMode": "MANUAL",
+      "securityGroup": {
+        "securityRules": [
+          {
+            "subnet": "0.0.0.0/0",
+            "ports": "9443",
+            "protocol": "tcp"
+          },
+          {
+            "subnet": "0.0.0.0/0",
+            "ports": "22",
+            "protocol": "tcp"
+          },
+          {
+            "subnet": "0.0.0.0/0",
+            "protocol": "tcp",
+            "ports": "443"
+          }
+        ]
+      }
+    },
+    {
+      "parameters": {},
+      "template": {
+        "parameters": {
+          "encrypted": false
+        },
+        "instanceType": "d2.medium",
+        "volumeType": "HDD",
+        "volumeCount": 1,
+        "volumeSize": 100
+      },
+      "nodeCount": 0,
+      "group": "worker",
+      "type": "CORE",
+      "recoveryMode": "MANUAL",
+      "securityGroup": {
+        "securityRules": [
+          {
+            "subnet": "0.0.0.0/0",
+            "protocol": "tcp",
+            "ports": "22"
+          }
+        ]
+      }
+    },
+    {
+      "parameters": {},
+      "template": {
+        "parameters": {
+          "encrypted": false
+        },
+        "instanceType": "d2.medium",
+        "volumeType": "HDD",
+        "volumeCount": 1,
+        "volumeSize": 100
+      },
+      "nodeCount": 0,
+      "group": "compute",
+      "type": "CORE",
+      "recoveryMode": "MANUAL",
+      "securityGroup": {
+        "securityRules": [
+          {
+            "subnet": "0.0.0.0/0",
+            "protocol": "tcp",
+            "ports": "22"
+          }
+        ]
+      }
+    }
+  ],
+  "network": {
+    "parameters": {
+      "subnetId": "aa7c8bb9-0152-46b9-8596-935baca704a0",
+      "networkingOption": "provider",
+      "networkId": "71a870bb-191c-4abe-bf02-ece2e9b3345c"
+    }
+  },
+  "stackAuthentication": {
+    "publicKeyId": "field"
+  }
+}

@@ -1,0 +1,8 @@
+intern:scott_intern
+sales:sales1,sales2,sales3
+sudoers:noobie
+analyst:joe_analyst
+hr:hr1,hr2,hr3,ivanna_eu_hr
+us_employee:joe_analyst
+legal:legal1,legal2,legal3
+eu_employee:ivanna_eu_hr

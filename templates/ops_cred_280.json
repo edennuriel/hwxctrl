@@ -1,0 +1,17 @@
+{
+   "cloudPlatform": "OPENSTACK",
+   "description": "${OS_USER:-enuriel} credentials",
+   "name": "${OS_USER:0:2}ops",
+   "parameters": {
+     "endpoint": "${OS_AUTH_URL:-http://field.hortonworks.com:5000/v3}",
+     "facing": "${OS_FACING:-internal}",
+     "keystoneAuthScope": "cb-keystone-v3-project-scope",
+     "selector": "cb-keystone-v3-project-scope",
+     "keystoneVersion": "cb-keystone-v3",
+     "password": "${OS_PASSWORD:-admin1234}",
+     "userDomain": "${OS_USER_DOMAIN:-Default}",
+     "userName": "${OS_USER:-enuriel}",
+     "projectDomainName": "${OS_PROJECT_DOMAIN_NAME:-Default}",
+     "projectName": "${OS_PROJECT_NAME:-SE}"
+   }
+ }
