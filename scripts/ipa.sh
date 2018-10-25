@@ -35,12 +35,12 @@ configure_resolve_conf() {
 
 install_ipa() {
 	#install packages
-	sudo yum install ipa-server ipa-server-dns -y
+	dolog yum install ipa-server ipa-server-dns -y
 
 	#increase entropy
 	cat /proc/sys/kernel/random/entropy_avail
-	sudo yum install -y rng-tools
-	sudo systemctl start rngd
+	dolog yum install -y rng-tools
+	dolog systemctl start rngd
 	cat /proc/sys/kernel/random/entropy_avail
 
 	#sometimes needed to avoid server install failing
@@ -54,7 +54,7 @@ setup_ipa() {
 	# need to figure out how to do this for other provider - this is static now for openstack field cloud
 	export subnet="26.172"
 	#install IPA server
-	sudo ipa-server-install --realm ${REALM} --domain $DOMAIN \
+	dolog ipa-server-install --realm ${REALM} --domain $DOMAIN \
 		--ip-address $IP \
 		-a $PASSWORD -p $PASSWORD \
 		--setup-dns \
@@ -64,7 +64,7 @@ setup_ipa() {
 
 	for zone in $(ipa dnszone-find --all | grep "Zone name")
 	do
-		sudo ipa dnszone-mod $zone --allow-sync-ptr=true
+		dolog ipa dnszone-mod $zone --allow-sync-ptr=true
 	done
 	#change default_ccache_name = FILE:/tmp/krb5cc_%{uid}
 

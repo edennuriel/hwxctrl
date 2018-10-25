@@ -54,7 +54,7 @@ install_hwxctrl_simple() {
         source ~/hwxctrl/scripts/ipa.sh
         sethostname
         install_ipa
-        setup ipa
+        setup_ipa
 	configure_resolve_conf
 	systemctl restart named-pkcs11
 

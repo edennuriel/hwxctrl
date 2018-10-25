@@ -5,9 +5,9 @@ source $home/scripts/utils.sh
 ### Development Env ###
 
 install_java_maven() {
-  sudo yum install -y java-1.8.0-openjdk-devel
-  sudo yum install -y maven
-  sudo yum install -y bats
+  dolog yum install -y java-1.8.0-openjdk-devel
+  dolog yum install -y maven
+  dolog yum install -y bats
   #git clone https://github.com/sstephenson/bats.git
   #cd bats
   #./install.sh /usr/local
@@ -24,13 +24,13 @@ install_python() {
   addpath ~/.pyenv/bin
 
   #configure pyenv
-  pyenv update
-  pyenv install 2.7.10
+  doq pyenv update
+  doq pyenv install 2.7.10
   #pyenv install 3.5.0
-  pyenv global 2.7.10
-  pip install -U pip
-  pyenv virtualenv 2.7.10 os
-  pyenv global os
+  doq pyenv global 2.7.10
+  doq pip install -U pip
+  doq pyenv virtualenv 2.7.10 os
+  doq pyenv global os
 
   update_bash_profile 'eval "$(pyenv init -)"'
   update_bash_profile 'eval "$(pyenv virtualenv-init -)"'
@@ -49,24 +49,25 @@ install_ruby_dev() {
   addpath ~/.rbenv/plugins/ruby-build/bin profile
   update_bash_profile 'eval "$(rbenv init -)"' 
   #>2.2.2 required for hub
-  rbenv install -v 2.5.1 
-  rbenv global 2.5.1
+  eval "$(rbenv init -)"
+  dolog rbenv install -v 2.5.1 
+  dolog rbenv global 2.5.1
   gem install bundler
 }
 
 install_hub() {
   #install_ruby>2.2.2 and go
-  go get github.com/github/hub && cd "$GOPATH"/src/github.com/github/hub
+  doq go get github.com/github/hub && cd "$GOPATH"/src/github.com/github/hub
   export prefix=~
-  make install
+  doq make install
   update_bash_profile "alias git=~/bin/hub"
 }
 
 install_git_crypt() {
   #as root
   git clone https://github.com/AGWA/git-crypt /tmp/gitcrypt && cd /tmp/gitcrypt
-  make ENABLE_MAN=yes
-  make ENABLE_MAN=yes install
+  doq make ENABLE_MAN=yes
+  doq make ENABLE_MAN=yes install
 }
 install_perl() {
 echo

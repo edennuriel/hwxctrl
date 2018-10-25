@@ -27,6 +27,14 @@ doas() {
   sudo "$@"
 }
 
+doq() {
+ echo ${FUNCNAME[0]} ${FUNCNAME[1]} : "$@"
+ BS=$(basename $BASH_SOURCE)
+ DLOG=${BS/.*}
+ LOG=${GLOBAL_LOG:-$DLOG}
+ "$@" 2>> ~/$LOG.err 1>>~/$LOG.log 
+}
+
 dolog() {
  echo ${FUNCNAME[0]} ${FUNCNAME[1]} : "$@"
  BS=$(basename $BASH_SOURCE)
