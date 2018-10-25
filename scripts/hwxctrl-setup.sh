@@ -50,12 +50,14 @@ install_hwxctrl_simple() {
 	echo configure_git
 	configure_git
 	echo install and setup ipa
-        source ~/hwxctrl/script/ipa.sh
+
+        source ~/hwxctrl/scripts/ipa.sh
         sethostname
         install_ipa
         setup ipa
 	configure_resolve_conf
 	systemctl restart named-pkcs11
+
         # not listenining on docker interface 
         # get reference and configure cb (credentials, dbs, bps, etc...)
 	# clone repos

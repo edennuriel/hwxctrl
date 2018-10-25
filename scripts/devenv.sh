@@ -50,8 +50,8 @@ install_ruby_dev() {
   update_bash_profile 'eval "$(rbenv init -)"' 
   #>2.2.2 required for hub
   rbenv install -v 2.5.1 
-  gem install bundler
   rbenv global 2.5.1
+  gem install bundler
 }
 
 install_hub() {
