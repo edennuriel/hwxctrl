@@ -40,7 +40,7 @@ global_prms() {
 
 ipa_prms(){
   #set name of instance to ipa.someawsdomain
-  IPA_HOST="${1:-enctrl.hortonworks.net}"
+  IPA_HOST="${1:-enctrl.field.hortonworks.com}"
   IPA_IP=$(host $IPA_HOST | cut -d" " -f4)
   REALM=${2:-$DOMAIN}
   REALM=${REALM^^}
@@ -50,14 +50,16 @@ ipa_prms(){
 ldap_prms() {
   global_prms
   ipa_prms
-  LDAP_BASE=${1:-cn=accounts,dc=hortonworks,dc=net}
+  LDAP_BASE=${1:-cn=accounts,dc=field,dc=hortonworks,dc=com}
   # ,cn=users,cn=accounts for IPA
   LDAP_USERS_BASE=${2:-"cn=users"},${LDAP_BASE}
   LDAP_GROUPS_BASE=${2:-"cn=groups"},${LDAP_BASE}
   LDAP_USER=${3:-"ldapbind"}
   LDAP_URL="$IPA_HOST:636"
-  LDAP_BINDDN="uid=$LDAP_USER,$LDAP_USERS"
-  LDAP_SEARCHBASE="cn=accounts,$BASE"
+  LDAP_BINDDN="uid=$LDAP_USER,$LDAP_USERS_BASE"
+  LDAP_BINDDN_PW="admin1234"
+  LDAP_SEARCHBASE="$LDAP_BASE"
+  log $(penv LDAP_BASE LDAP_BINDDN LDAP_BINDDN_PW LDAP_URL)
 }
 
 install_ipa_client() {
@@ -66,7 +68,7 @@ install_ipa_client() {
 }
 
 setup_ipa_client() {
-  export IPA_HOST="${1:-enctrl.hortonworks.net}"
+  export IPA_HOST="${1:-enctrl.field.hortonworks.com}"
   sudo ipa-client-install \
   --server=$IPA_HOST \
   --realm=$REALM \
@@ -82,7 +84,7 @@ update_resolver_unbound() {
   hostnamectl set-hostname `hostname -f`
   cat >/etc/unbound/conf.d/02-ipa.conf<<EOF
 forward-zone:
-  name: "hortonworks.net"
+  name: "field.hortonworks.com"
   forward-addr: $IPA_IP 
 EOF
 
@@ -187,9 +189,9 @@ ambari_ldap_setup() {
   ### Please select the type of LDAP you want to use (AD, IPA, Generic LDAP):IPA ###
   expect "Please select the type of LDAP you want to use "
   send -s "IPA\r"
-  ### Primary LDAP Host (ipa.ambari.apache.org):enctrl.hortonworks.net ###
+  ### Primary LDAP Host (ipa.ambari.apache.org):enctrl.field.hortonworks.com ###
   expect "Primary LDAP Host "
-  send -s "enctrl.hortonworks.net\r"
+  send -s "enctrl.field.hortonworks.com\r"
   ### Primary LDAP Port (636): ###
   expect "Primary LDAP Port "
   send -s "636\r"
@@ -235,18 +237,18 @@ ambari_ldap_setup() {
   ### Distinguished name attribute (dn): ###
   expect "Distinguished name attribute "
   send -s "dn\r"
-  ### Search Base (dc=ambari,dc=apache,dc=org):  cn=accounts,dc=hortonworks,dc=net ###
+  ### Search Base (dc=ambari,dc=apache,dc=org):  cn=accounts,dc=field,dc=hortonworks,dc=com ###
   expect "Search Base "
-  send -s "cn=accounts,dc=hortonworks,dc=net\r"
+  send -s "cn=accounts,dc=field,dc=hortonworks,dc=com\r"
   ### Referral method [follow/ignore] (follow): ###
   expect "Referral method "
   send -s "follow\r"
   ### Bind anonymously [true/false] (false): ###
   expect "Bind anonymously "
   send -s "false\r"
-  ### Bind DN (uid=ldapbind,cn=users,cn=accounts,dc=ambari,dc=apache,dc=org): uid=ldapbind,cn=users,cn=accounts,dc=hortonworks,dc=net ###
+  ### Bind DN (uid=ldapbind,cn=users,cn=accounts,dc=ambari,dc=apache,dc=org): uid=ldapbind,cn=users,cn=accounts,dc=field,dc=hortonworks,dc=com ###
   expect "Bind DN "
-  send -s "uid=ldapbind,cn=users,cn=accounts,dc=hortonworks,dc=net\r"
+  send -s "uid=ldapbind,cn=users,cn=accounts,dc=field,dc=hortonworks,dc=com\r"
   ### Enter Bind DN Password:$env(PASSWORD) ###
   expect "Enter Bind DN Password"
   send -s "$env(PASSWORD)\r"
@@ -287,7 +289,7 @@ lds(){
   ldapsearch -D ${LDAP_BINDDN} \
   -w ${LDAP_BINDDN_PW} \
   -b ${LDAP_SEARCHBASE} \
-  -H ${LDAP_URL} "${1}"
+  -H ldaps://${LDAP_URL} "${1}"
 }
 
 ##recipe components
