@@ -1,11 +1,11 @@
-#!/bin/bash	
+#!/bin/bash
 
 retry() {
   [[ -z $1 ]] && echo missing command to try && return
   cmd=${1}
   tries=${2:-3}
   wait=${3:-1}
-  for ((try=1; try <= tries; try++))  
+  for ((try=1; try <= tries; try++))
   do
     echo "tryng $cmd.... ( $try of $tries)"
     $cmd
@@ -13,20 +13,20 @@ retry() {
     sleep $wait
   done
 }
-  
+
 log() {
-  echo -n ${FUNCNAME[0]} ${FUNCNAME[1]} : 
+  echo -n ${FUNCNAME[0]} ${FUNCNAME[1]} :
   [[ ${#@} == 1 ]] && echo $1 && return
   printf '\n\t\t%s' "$@"
   echo
-  
+
 }
 
 penv() {
   for arg in $@
   do
      echo $arg=${!arg}
-  done 
+  done
 }
 
 global_prms() {
@@ -36,7 +36,7 @@ global_prms() {
   FQDN=$(hostname -f)
   IP=$(hostname --ip-address)
   log $(penv PASSWORD HOSTNAME DOMAIN FQDN IP)
-}  
+}
 
 ipa_prms(){
   #set name of instance to ipa.someawsdomain
@@ -44,7 +44,7 @@ ipa_prms(){
   IPA_IP=$(host $IPA_HOST | cut -d" " -f4)
   REALM=${2:-$DOMAIN}
   REALM=${REALM^^}
-  log $(penv IPA_HOST IPA_IP REALM) 
+  log $(penv IPA_HOST IPA_IP REALM)
 }
 
 ldap_prms() {
@@ -85,7 +85,7 @@ update_resolver_unbound() {
   cat >/etc/unbound/conf.d/02-ipa.conf<<EOF
 forward-zone:
   name: "field.hortonworks.com"
-  forward-addr: $IPA_IP 
+  forward-addr: $IPA_IP
 EOF
 
   pkill -SIGHUP unbound
@@ -111,7 +111,7 @@ remount_tmpfs() {
 ambari_mysql() {
   ambari-server setup --jdbc-db=mysql --jdbc-driver=/usr/share/java/mysql-connector-java.jar
 
-  if [[ $(cat /etc/system-release|grep -Po Amazon) == Amazon ]]; then       	
+  if [[ $(cat /etc/system-release|grep -Po Amazon) == Amazon ]]; then
 	  yum install -y mysql56-server > /dev/null 2>&1
 	  service mysqld start
 	  chkconfig --add mysqld
@@ -130,7 +130,7 @@ ambari_truststore_ipa() {
   echo $PASSWORD | kinit admin
   sudo mkdir -p /etc/security/certificates/ > /dev/null 2>&1
   sudo ipa-getcert request -v -f /etc/security/certificates/host.crt -k /etc/security/certificates/host.key
-  sudo keytool -list -keystore /etc/pki/java/cacerts -v -storepass changeit -storepasswd -new $PASSWORD | grep ipa 
+  sudo keytool -list -keystore /etc/pki/java/cacerts -v -storepass changeit -storepasswd -new $PASSWORD | grep ipa
 }
 
 ambari_secure_passwords() {
@@ -138,7 +138,7 @@ ambari_secure_passwords() {
   --truststore-type=jks \
   --truststore-path=/etc/pki/java/cacerts \
   --truststore-password=$PASSWORD
-  
+
   sudo ambari-server restart
 }
 
@@ -147,8 +147,8 @@ ambari_server_fqdn_hack() {
 }
 
 ambari_enable_https(){
-  if [[ -f /etc/security/certificates/host.crt ]] && [[ -f /etc/security/certificates/host.key ]] 
-  then   
+  if [[ -f /etc/security/certificates/host.crt ]] && [[ -f /etc/security/certificates/host.key ]]
+  then
     sudo ambari-server setup-security --security-option setup-https \
     --import-cert-path=/etc/security/certificates/host.crt \
     --import-key-path=/etc/security/certificates/host.key \
@@ -156,8 +156,8 @@ ambari_enable_https(){
     --pem-password=$PASSWORD \
     --api-ssl=true
   else
-     echo "missing required files " 
-     sudo ls -ltr /etc/security/certificates/ 
+     echo "missing required files "
+     sudo ls -ltr /etc/security/certificates/
   fi
 }
 
@@ -181,10 +181,10 @@ ambari_ldap_setup() {
   [[ -z $(rpm -qa | grep expect) ]] && yum install -y expect > /dev/null 2>&1
   export PASSWORD=${1:-admin1234}
   export ADMIN=${2:-admin}
-  read -r -d '' exp_cmds <<'EOD' 
+  read -r -d '' exp_cmds <<'EOD'
 
   set send_slow {10 0.01}
-  spawn ambari-server setup-ldap --ldap-force-setup --ambari-admin-password=$env(PASSWORD) --ambari-admin-username=$env(ADMIN)
+  spawn ambari-server setup-ldap --ldap-force-setup
 
   ### Please select the type of LDAP you want to use (AD, IPA, Generic LDAP):IPA ###
   expect "Please select the type of LDAP you want to use "
@@ -267,6 +267,12 @@ ambari_ldap_setup() {
   ### Save settings:y ###
   expect "Save settings"
   send -s "y\r"
+
+  expect "Enter Ambari Admin login:"
+  send -s "$env(ADMIN)\r"
+  expect  "Enter Ambari Admin password:"
+  send -s "$env(PASSWORD)\r"
+
   expect eof
 EOD
   read -r -d '' exp_cmd_no_comments <<< "$(echo "$exp_cmds" | grep -v '#')"
@@ -311,7 +317,7 @@ amb_pre() {
 
 amb_post() {
   global_prms
-  ipa_prms 
+  ipa_prms
   ambari_truststore_ipa
   ambari_secure_passwords
   ambari_server_fqdn_hack

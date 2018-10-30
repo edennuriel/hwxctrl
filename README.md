@@ -16,3 +16,9 @@ add credentials, blueprints and recipes
 create cluster
 
 
+# to start...
+sudo su -
+yum install -y git >/dev/null 2>&1 && cd ~ && git clone https://github.com/edennuriel/hwxctrl && cd hwxctrl/scripts && source hwxctrl-setup.sh
+install_hwxctrl_simple
+
+
