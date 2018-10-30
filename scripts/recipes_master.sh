@@ -179,8 +179,8 @@ EOF
 
 ambari_ldap_setup() {
   [[ -z $(rpm -qa | grep expect) ]] && yum install -y expect > /dev/null 2>&1
-  PASSWORD=${1:-admin1234}
-  ADMIN=${2:-admin}
+  export PASSWORD=${1:-admin1234}
+  export ADMIN=${2:-admin}
   read -r -d '' exp_cmds <<'EOD' 
 
   set send_slow {10 0.01}
