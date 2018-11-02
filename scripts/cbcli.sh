@@ -14,7 +14,7 @@ cbadd_blueprint() {
   bp_name=${bp_name/.*}
   [[ ! -z "$2" ]] && bp_name="$2"
   [[ $(cb blueprint list | jq -r '.[]|.Name' | grep -x $bp_name >/dev/null 2>&1 ) ]] && echo removing exiting blueprint "$bp_name" && cb blueprint delete --name "$bp_name"
-  cb blueprint create $bp --name "$bp_name" 
+  cb blueprint create $bp --name "$bp_name"
 }
 
 cbadd_ldap_auth() {
@@ -47,7 +47,7 @@ cbadd_cred() {
   name=${2}
   render_bash $cred > /tmp/cred
   echo cb credential create from-file --cli-input-json /tmp/cred ${name:+--name $name}
-  cb credential create from-file --cli-input-json /tmp/cred --name $name 
+  cb credential create from-file --cli-input-json /tmp/cred --name $name
   rm /tmp/cred
 }
 
@@ -64,12 +64,12 @@ echo
 
 cbadd_recipe() {
 
-  [[ -z "$1" ]] && echo "Usage: ${FUNCNAME[0]} <url/file> [1|2|3|4] [name]" 
+  [[ -z "$1" ]] && echo "Usage: ${FUNCNAME[0]} <url/file> [1|2|3|4] [name]"
   recf=$(readlink -m $1)
-  [[ -f $recf ]] && export rec=" from-file --file $recf " 
+  [[ -f $recf ]] && export rec=" from-file --file $recf "
   [[ $(wget "$1" -o /tmp/url > /dev/null 2>&1) == 0 ]] && export rec=" from-url --url $1 "
   [[ -z $rec ]] && "must provide a bp file or uril" && return
-  case "${2:-1}" in 
+  case "${2:-1}" in
   1)
     rtype=pre-ambari-start
     ;;
@@ -93,11 +93,18 @@ cb_get_args() {
   error="must provide a ${3:-url/file and opional name}"
   [[ -z $1 ]] && echo $error && return
   file=$(readlink -m "$1")
-  [[ -f "$file" ]] && args=" from-file --file $file " 
+  [[ -f "$file" ]] && args=" from-file --file $file "
   [[ -z $args ]] && [[ $(wget "$1" -o /tmp/url > /dev/null 2>&1) == 0 ]] && args=" from-url --url "$1" "
   [[ -z "$args" ]] && echo $error && return
   name=$(basename $file)
   name=${bp_name/.*}
   [[ ! -z "$2" ]] && name="$2"
   return "$args --name $name "
+}
+
+cbadd_mpack_hdf32() {
+    cbadd_mpacks http://public-repo-1.hortonworks.com/HDF/centos7/3.x/updates/3.2.0.0/tars/hdf_ambari_mp/hdf-ambari-mpack-3.2.0.0-520.tar.gz hdf32
+}
+cbadd_mpack_solr7() {
+    cbadd_mpacks http://public-repo-1.hortonworks.com/HDP-SOLR/hdp-solr-ambari-mp/solr-service-mpack-4.0.0.tar.gz solr
 }

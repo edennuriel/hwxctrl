@@ -322,8 +322,10 @@ amb_post() {
   ambari_secure_passwords
   ambari_server_fqdn_hack
   retry ambari_enable_https 5 5
-  ambari_ldap_setup
-  ambari_ldap_sync
+  #ambari-server restart
+  #wait-for-ambari
+  #ambari_ldap_setup
+  #ambari_ldap_sync
 }
 
 ##
