@@ -181,90 +181,65 @@ ambari_ldap_setup() {
   [[ -z $(rpm -qa | grep expect) ]] && yum install -y expect > /dev/null 2>&1
   export PASSWORD=${1:-admin1234}
   export ADMIN=${2:-admin}
+  export LDGRPOC="${3:ipausergroup}"
+  export LDUSROC="${4:posixaccount}"
   read -r -d '' exp_cmds <<'EOD'
 
   set send_slow {10 0.01}
   spawn ambari-server setup-ldap --ldap-force-setup
 
-  ### Please select the type of LDAP you want to use (AD, IPA, Generic LDAP):IPA ###
   expect "Please select the type of LDAP you want to use "
   send -s "IPA\r"
-  ### Primary LDAP Host (ipa.ambari.apache.org):enctrl.field.hortonworks.com ###
   expect "Primary LDAP Host "
   send -s "enctrl.field.hortonworks.com\r"
-  ### Primary LDAP Port (636): ###
   expect "Primary LDAP Port "
   send -s "636\r"
-  ### Secondary LDAP Host <Optional>: ###
   expect "Secondary LDAP Host <Optional>"
   send -s "\r"
-  ### Secondary LDAP Port <Optional>: ###
   expect "Secondary LDAP Port <Optional>"
   send -s "\r"
-  ### Use SSL [true/false] (true): ###
   expect "Use SSL "
   send -s "true\r"
-  ### Do you want to provide custom TrustStore for Ambari [y/n] (y)? ###
   expect "Do you want to provide custom TrustStore for Ambari "
   send -s "y\r"
-  ### TrustStore type [jks/jceks/pkcs12] (jks): ###
   expect "TrustStore type "
   send -s "jks\r"
-  ### Path to TrustStore file (/etc/pki/java/cacerts): ###
   expect "Path to TrustStore file "
   send -s "/etc/pki/java/cacerts\r"
-  ### Password for TrustStore:$env(PASSWORD) ###
   expect "Password for TrustStore"
   send -s "$env(PASSWORD)\r"
-  ### Re-enter password:$env(PASSWORD) ###
   expect "Re-enter password"
   send -s "$env(PASSWORD)\r"
-  ### User object class (posixUser): ###
   expect "User object class "
-  send -s "posixUser\r"
-  ### User ID attribute (uid): ###
+  send -s "$env(LDUSROC)\r"
   expect "User ID attribute "
   send -s "uid\r"
-  ### Group object class (posixGroup): ###
   expect "Group object class "
-  send -s "posixGroup\r"
-  ### Group name attribute (cn): ###
+  send -s "$env(LDGRPOC)\r"
   expect "Group name attribute "
   send -s "cn\r"
-  ### Group member attribute (memberUid): member ###
   expect "Group member attribute "
   send -s "member\r"
-  ### Distinguished name attribute (dn): ###
   expect "Distinguished name attribute "
   send -s "dn\r"
-  ### Search Base (dc=ambari,dc=apache,dc=org):  cn=accounts,dc=field,dc=hortonworks,dc=com ###
   expect "Search Base "
   send -s "cn=accounts,dc=field,dc=hortonworks,dc=com\r"
-  ### Referral method [follow/ignore] (follow): ###
   expect "Referral method "
   send -s "follow\r"
-  ### Bind anonymously [true/false] (false): ###
   expect "Bind anonymously "
   send -s "false\r"
-  ### Bind DN (uid=ldapbind,cn=users,cn=accounts,dc=ambari,dc=apache,dc=org): uid=ldapbind,cn=users,cn=accounts,dc=field,dc=hortonworks,dc=com ###
   expect "Bind DN "
   send -s "uid=ldapbind,cn=users,cn=accounts,dc=field,dc=hortonworks,dc=com\r"
-  ### Enter Bind DN Password:$env(PASSWORD) ###
   expect "Enter Bind DN Password"
   send -s "$env(PASSWORD)\r"
-  ### Confirm Bind DN Password:$env(PASSWORD) ###
   expect "Confirm Bind DN Password"
   send -s "$env(PASSWORD)\r"
-  ### Handling behavior for username collisions [convert/skip] for LDAP sync (skip): ###
   expect "Handling behavior for username collisions "
   send -s "skip\r"
-  ### Force lower-case user names [true/false]: ###
   expect "Force lower-case user names "
   send -s "\r"
-  ### Results from LDAP are paginated when requested [true/false]: ###
   expect "Results from LDAP are paginated when requested "
   send -s "\r"
-  ### Save settings:y ###
   expect "Save settings"
   send -s "y\r"
 
@@ -281,9 +256,8 @@ EOD
 }
 
 ambari_ldap_sync() {
-  ambari-server sync-ldap --all --ldap-sync-admin-name=$ADMIN --ldap-sync-admin-password=$PASSWORD
+  ambari-server sync-ldap --all --ldap-sync-admin-name=$ADMIN --ldap-sync-admin-password=$PASSWORD $@
 }
-
 
 
 install_ldap_tools() {
@@ -295,7 +269,15 @@ lds(){
   ldapsearch -D ${LDAP_BINDDN} \
   -w ${LDAP_BINDDN_PW} \
   -b ${LDAP_SEARCHBASE} \
-  -H ldaps://${LDAP_URL} "${1}"
+  -H ldaps://${LDAP_URL} $@
+}
+
+ipausers() {
+  lds "(objectclass=posixaccount)" uid 
+}
+
+ipagroups() {
+  lds "(objectclass=ipausergroup)" cn
 }
 
 ##recipe components

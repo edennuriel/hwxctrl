@@ -1,5 +1,9 @@
 #!/usr/bin/env bash -x
 
+join() {
+  sed ':a;N;$!ba;s/\n/'"${1:-,}"'/g'  
+}
+
 sourceall() {
 	for sh in $(awk '{print $1}' ~/hwxctrl/scripts/.ordered); do source "$sh" ; done
 }

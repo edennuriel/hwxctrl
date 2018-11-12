@@ -55,9 +55,11 @@ install_hwxctrl_simple() {
         sethostname
         install_ipa
         setup_ipa
+        setup_admins
+	setup_users_groups
 	configure_resolve_conf
 	systemctl restart named-pkcs11
-
+        yes "$PASSWORD" ipa passwd ldapbind
         # not listenining on docker interface 
         # get reference and configure cb (credentials, dbs, bps, etc...)
 	# clone repos
