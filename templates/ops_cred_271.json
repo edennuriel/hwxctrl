@@ -2,7 +2,7 @@
    "cloudPlatform": "OPENSTACK",
    "description": "${OS_USER:-enuriel} credentials",
    "parameters": {
-     "endpoint": "${OS_AUTH_URL:-http://field.hortonworks.com:5000/v3}",
+     "endpoint": "${OS_AUTH_URL:-http://172.26.148.10:5000/v3}",
      "facing": "${OS_FACING:-internal}",
      "keystoneAuthScope": "cb-keystone-v3-default-scope",
      "selector": "cb-keystone-v3-default-scope",

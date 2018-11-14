@@ -280,6 +280,27 @@ ipagroups() {
   lds "(objectclass=ipausergroup)" cn
 }
 
+create_db() {
+  dbname=${1}
+  dbtype="${2:-mysql}"
+  dbuser="${3:-$dbname}"
+  dbpass="${4:-$dbname}"
+  [[ -z "$dbname" ]] && echo "Db name is required" && return 1
+  case "$dbtype" in
+  mysql )
+    ## check my sql is installed
+    sudo mysql -e "\"CREATE DATABASE $dbname;\""
+    #GRANT seems to add the user, so saved a line here...
+    sudo mysql -e "\"GRANT ALL PRIVILEGES on $dbname.* to '$dbuser'@'%' identified by '$dbpass';\""
+    sudo mysql -e "\"GRANT ALL PRIVILEGES on $dbname.* to '$dbuser'@'localhost' identified by '$dbpass';\""
+  ;;
+  * )
+    echo "db type is mysql or postgres"
+    return 1
+  ;;
+  esac
+}
+  
 ##recipe components
 all_pre() {
   global_prms
@@ -295,6 +316,10 @@ all_pre() {
 amb_pre() {
   all_pre
   ambari_mysql
+  for db in ranger registry druid superset streamline 
+  do 
+    create_db $db
+  done 
 }
 
 amb_post() {
@@ -304,10 +329,11 @@ amb_post() {
   ambari_secure_passwords
   ambari_server_fqdn_hack
   retry ambari_enable_https 5 5
-  #ambari-server restart
-  #wait-for-ambari
-  #ambari_ldap_setup
-  #ambari_ldap_sync
+  ambari-server restart
+  wait-for-ambari
+  ambari_ldap_setup
+  ambari_ldap_sync
+
 }
 
 ##
