@@ -1,0 +1,97 @@
+{
+  "Blueprints": {
+    "stack_name": "HDP",
+    "stack_version": "3.0",
+    "Blueprint_name": "cdpv1"
+  },
+  "host_groups": [
+    {
+      "components": [
+        { "name": "NAMENODE" },
+        { "name": "RESOURCEMANAGER" },
+        { "name": "HIVE_SERVER" },
+        { "name": "OOZIE_SERVER" },
+        { "name": "METRICS_MONITOR" },
+        { "name": "ZOOKEEPER_SERVER" },
+        { "name": "HISTORYSERVER" },
+        { "name": "APP_TIMELINE_SERVER" },
+        { "name": "TIMELINE_READER" },
+        { "name": "RANGER_ADMIN" },
+        { "name": "RANGER_USERSYNC" },
+        { "name": "RANGER_TAGSYNC" },
+        { "name": "REGISTRY_SERVER" },
+        { "name": "NIFI_MASTER" },
+        { "name": "KNOX_GATEWAY" },
+        { "name": "HBASE_MASTER" },
+        { "name": "MYSQL_SERVER" },
+        { "name": "HIVE_METASTORE" },
+        { "name": "NIFI_CA" },
+        { "name": "PHOENIX_QUERY_SERVER" }
+        { "name": "METRICS_COLLECTOR" },
+        { "name": "METRICS_GRAFANA" },
+        { "name": "ZEPPELIN_MASTER" },
+        { "name": "SUPERSET" },
+        { "name": "DATANODE" },
+        { "name": "NODEMANAGER" },
+        { "name": "HBASE_REGIONSERVER" },
+        { "name": "SPARK2_CLIENT" },
+        { "name": "INFRA_SOLR_CLIENT" },
+        { "name": "TEZ_CLIENT" },
+        { "name": "ZOOKEEPER_CLIENT" },
+        { "name": "KAFKA_BROKER" },
+        { "name": "OOZIE_CLIENT" },
+        { "name": "JOURNALNODE" },
+        { "name": "YARN_CLIENT" },
+        { "name": "HDFS_CLIENT" },
+        { "name": "SQOOP" },
+        { "name": "PIG" },
+        { "name": "MAPREDUCE2_CLIENT" },
+        { "name": "HBASE_CLIENT" },
+        { "name": "HIVE_CLIENT" }
+      ],
+      "configurations": [],
+      "name": "master",
+      "cardinality": "1"
+    },
+    {
+      "components": [
+        { "name": "NODEMANAGER" },
+        { "name": "DATANODE" },
+        { "name": "SPARK2_CLIENT" },
+        { "name": "METRICS_MONITOR" },
+        { "name": "INFRA_SOLR_CLIENT" },
+        { "name": "TEZ_CLIENT" },
+        { "name": "ZOOKEEPER_CLIENT" },
+        { "name": "SPARK2_JOBHISTORYSERVER" },
+        { "name": "KAFKA_BROKER" },
+        { "name": "OOZIE_CLIENT" },
+        { "name": "HBASE_REGIONSERVER" },
+        { "name": "YARN_CLIENT" },
+        { "name": "HDFS_CLIENT" },
+        { "name": "SQOOP" },
+        { "name": "PIG" },
+        { "name": "MAPREDUCE2_CLIENT" },
+        { "name": "HBASE_CLIENT" },
+        { "name": "INFRA_SOLR" },
+        { "name": "HIVE_CLIENT" },
+      ],
+      "configurations": [],
+      "name": "slave",
+      "cardinality": "1+"
+  ],
+  "settings": [
+    {
+      "recovery_settings": [
+        {
+          "recovery_enabled": "true"
+        }
+      ]
+    },
+    {
+      "service_settings": [ ]
+    },
+    {
+      "component_settings": [ ]
+    }
+  ]
+}
