@@ -289,10 +289,10 @@ create_db() {
   case "$dbtype" in
   mysql )
     ## check my sql is installed
-    sudo mysql -e "\"CREATE DATABASE $dbname;\""
+    sudo mysql -e "CREATE DATABASE $dbname;"
     #GRANT seems to add the user, so saved a line here...
-    sudo mysql -e "\"GRANT ALL PRIVILEGES on $dbname.* to '$dbuser'@'%' identified by '$dbpass';\""
-    sudo mysql -e "\"GRANT ALL PRIVILEGES on $dbname.* to '$dbuser'@'localhost' identified by '$dbpass';\""
+    sudo mysql -e "GRANT ALL PRIVILEGES on $dbname.* to '$dbuser'@'%' identified by '$dbpass';"
+    sudo mysql -e "GRANT ALL PRIVILEGES on $dbname.* to '$dbuser'@'localhost' identified by '$dbpass';"
   ;;
   * )
     echo "db type is mysql or postgres"
