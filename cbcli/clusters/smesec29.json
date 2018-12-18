@@ -1,0 +1,173 @@
+{
+  "inputs": {},
+  "general": {
+    "credentialName": "enops",
+    "name": "enseclab"
+  },
+  "placement": {
+    "region": "RegionOne",
+    "availabilityZone": "SE"
+  },
+  "tags": {
+    "userDefinedTags": {}
+  },
+  "cluster": {
+    "ambari": {
+      "blueprintName": "Security_HA_3",
+      "platformVersion": "HDP 3.0",
+      "userName": "admin",
+      "password": "",
+      "validateBlueprint": false,
+      "ambariSecurityMasterKey": "",
+      "enableSecurity": false,
+      "ambariStackDetails": {
+        "mpacks": [
+          {
+            "name": "hdf32"
+          },
+          {
+            "name": "solr7"
+          }
+        ],
+        "version": "3.0",
+        "verify": false,
+        "enableGplRepo": true,
+        "stack": "HDP",
+        "stackOs": "centos7"
+      }
+    },
+    "rdsConfigNames": []
+  },
+  "instanceGroups": [
+    {
+      "parameters": {},
+      "template": {
+        "parameters": {},
+        "instanceType": "d2.medium",
+        "volumeType": "HDD",
+        "volumeCount": 0,
+        "volumeSize": 100
+      },
+      "nodeCount": 1,
+      "group": "host_group_2",
+      "type": "CORE",
+      "recoveryMode": "MANUAL",
+      "securityGroup": {
+        "securityRules": [
+          {
+            "subnet": "0.0.0.0/0",
+            "protocol": "tcp",
+            "ports": "22"
+          }
+        ]
+      },
+      "recipeNames": [
+        "all-pre"
+      ]
+    },
+    {
+      "parameters": {},
+      "template": {
+        "parameters": {},
+        "instanceType": "d2.medium",
+        "volumeType": "HDD",
+        "volumeCount": 0,
+        "volumeSize": 100
+      },
+      "nodeCount": 1,
+      "group": "host_group_1",
+      "type": "GATEWAY",
+      "recoveryMode": "MANUAL",
+      "securityGroup": {
+        "securityRules": [
+          {
+            "subnet": "0.0.0.0/0",
+            "ports": "9443",
+            "protocol": "tcp"
+          },
+          {
+            "subnet": "0.0.0.0/0",
+            "ports": "22",
+            "protocol": "tcp"
+          },
+          {
+            "subnet": "0.0.0.0/0",
+            "protocol": "tcp",
+            "ports": "443"
+          }
+        ]
+      },
+      "recipeNames": [
+        "amb-pre",
+        "amb-post"
+      ]
+    },
+    {
+      "parameters": {},
+      "template": {
+        "parameters": {},
+        "instanceType": "d2.medium",
+        "volumeType": "HDD",
+        "volumeCount": 0,
+        "volumeSize": 100
+      },
+      "nodeCount": 1,
+      "group": "host_group_4",
+      "type": "CORE",
+      "recoveryMode": "MANUAL",
+      "securityGroup": {
+        "securityRules": [
+          {
+            "subnet": "0.0.0.0/0",
+            "protocol": "tcp",
+            "ports": "22"
+          }
+        ]
+      },
+      "recipeNames": [
+        "all-pre"
+      ]
+    },
+    {
+      "parameters": {},
+      "template": {
+        "parameters": {},
+        "instanceType": "d2.medium",
+        "volumeType": "HDD",
+        "volumeCount": 0,
+        "volumeSize": 100
+      },
+      "nodeCount": 1,
+      "group": "host_group_3",
+      "type": "CORE",
+      "recoveryMode": "MANUAL",
+      "securityGroup": {
+        "securityRules": [
+          {
+            "subnet": "0.0.0.0/0",
+            "protocol": "tcp",
+            "ports": "22"
+          }
+        ]
+      },
+      "recipeNames": [
+        "all-pre"
+      ]
+    }
+  ],
+  "network": {
+    "parameters": {
+      "subnetId": "aa7c8bb9-0152-46b9-8596-935baca704a0",
+      "networkingOption": "provider",
+      "networkId": "71a870bb-191c-4abe-bf02-ece2e9b3345c"
+    }
+  },
+  "stackAuthentication": {
+    "publicKeyId": "field"
+  },
+  "imageSettings": {
+    "imageCatalog": "cloudbreak-default",
+    "imageId": "10c4e0ce-d841-41e6-5c2c-1f5fdbc7cf6f"
+  },
+  "imageType": "prewarmed"
+}

@@ -3,6 +3,7 @@
 BASHSOURCE="$BASH_SOURCE"
 SOURCEDIR="$( cd "$( dirname "${BASHSOURCE}" )" && pwd )"
 yn=""
+mkdir -p  /tmp/log > /dev/null 2>&1 
 dbg() {
   echo "$@" | tee -a /tmp/log/rectmp.$$.log
   "$@"

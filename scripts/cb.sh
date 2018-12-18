@@ -2,7 +2,7 @@
 ### Cloudbreak# ##
 
 cb_prms(){
-  export cbver="2.7.1"
+  [[ ! -z $cbver ]] || export cbver="2.7.1"
   export myip=$(hostname --ip-address)
   export user=enuriel
   export password=admin1234
