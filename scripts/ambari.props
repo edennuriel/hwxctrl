@@ -1,0 +1,18 @@
+CLUSTER_NAME=enseclab
+AMBARI_ADMIN_USER=admin
+AMBARI_ADMIN_PASSWORD=admin1234
+KDC_ADMIN=admin
+KDC_ADMIN_PASS=admin1234
+KDC_HOST=enctrl.field.hortonworks.com
+AMBARI_HOST=$(hostname --ip-address)
+AMBARI_PORT=8444
+AMBARI_BASE_URL="https://${AMBARI_HOST}:${AMBARI_PORT}"
+DOMAINS=$(hostname -d)
+REALM=${DOMAINS^^}
+KDC_TYPE=ipa
+#1. KERBEROS_CLIENTS - Comma separated list of Kerberos clients in case of multinode cluster
+# If not set here, will get all hosts from Ambari and setup Kerberos client for those
+#KERBEROS_CLIENTS=
+##### Notes #####
+
+#ToDo: things needs to be auto-populated by the script creating the cluster... 

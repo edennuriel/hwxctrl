@@ -5,7 +5,7 @@
 #############
 #AMBARI_VERSION=`rpm -qa|grep 'ambari-server-'|head -1|cut -d'-' -f3`
 
-source $LOC/ambcli.sh
+source ambcli.sh
 AMBARI_VERSION="$(ambget services/AMBARI/components/AMBARI_SERVER?fields=RootServiceComponents/component_version | jq -r '.RootServiceComponents| select (.component_name=="AMBARI_SERVER")|.component_version')"
 export AMBARI_VERSION ; echo AMBARI_VERSION=$AMBARI_VERSION
 [[ -z $KERBEROS_CLIENTS ]] && KERBEROS_CLIENTS=$(ambgets hosts |  jq -r '[.items[].Hosts.host_name]|join (", ")')
