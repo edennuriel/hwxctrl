@@ -1,0 +1,233 @@
+ "host_groups": [
+    {
+      "name": "master",
+      "cardinality": "1",
+      "components": [
+        {
+          "name": "ATLAS_SERVER"
+        },
+        {
+          "name": "RANGER_TAGSYNC"
+        },
+        {
+          "name": "RANGER_USERSYNC"
+        },
+        {
+          "name": "RANGER_ADMIN"
+        },
+        {
+          "name": "INFRA_SOLR"
+        },
+        {
+          "name": "KNOX_GATEWAY"
+        },
+        {
+          "name": "HIVE_SERVER"
+        },
+        {
+          "name": "HIVE_SERVER_INTERACTIVE"
+        },
+        {
+          "name": "HIVE_METASTORE"
+        },
+        {
+          "name": "DRUID_OVERLORD"
+        },
+        {
+          "name": "DRUID_COORDINATOR"
+        },
+        {
+          "name": "DRUID_ROUTER"
+        },
+        {
+          "name": "DRUID_BROKER"
+        },
+        {
+          "name": "SUPERSET"
+        },
+        {
+          "name": "HBASE_MASTER"
+        },
+        {
+          "name": "KAFKA_BROKER"
+        },
+        {
+          "name": "ZOOKEEPER_SERVER"
+        },
+        {
+          "name": "NAMENODE"
+        },
+        {
+          "name": "SECONDARY_NAMENODE"
+        },
+        {
+          "name": "RESOURCEMANAGER"
+        },
+        {
+          "name": "HISTORYSERVER"
+        },
+        {
+          "name": "APP_TIMELINE_SERVER"
+        },
+        {
+          "name": "LIVY2_SERVER"
+        },
+        {
+          "name": "SPARK2_CLIENT"
+        },
+        {
+          "name": "SPARK2_JOBHISTORYSERVER"
+        },
+        {
+          "name": "ZEPPELIN_MASTER"
+        },
+        {
+          "name": "REGISTRY_SERVER"
+        },
+        {
+          "name": "NIFI_REGISTRY_MASTER"
+        },
+        {
+          "name": "NIFI_CA"
+        },
+        {
+          "name": "DATA_ANALYTICS_STUDIO_WEBAPP"
+        },
+        {
+          "name": "DATA_ANALYTICS_STUDIO_EVENT_PROCESSOR"
+        },
+        {
+          "name": "STREAMSMSGMGR"
+        },
+        {
+          "name": "METRICS_GRAFANA"
+        },
+        {
+          "name": "METRICS_MONITOR"
+        },
+        {
+          "name": "DATANODE"
+        },
+        {
+          "name": "YARN_CLIENT"
+        },
+        {
+          "name": "HDFS_CLIENT"
+        },
+        {
+          "name": "TEZ_CLIENT"
+        },
+        {
+          "name": "INFRA_SOLR_CLIENT"
+        },
+        {
+          "name": "ZOOKEEPER_CLIENT"
+        },
+        {
+          "name": "MAPREDUCE2_CLIENT"
+        },
+        {
+          "name": "ATLAS_CLIENT"
+        },
+        {
+          "name": "HBASE_CLIENT"
+        },
+        {
+          "name": "HIVE_CLIENT"
+        }
+      ]
+    },
+    {
+      "name": "worker",
+      "cardinality": "1+",
+      "components": [
+        {
+          "name": "NODEMANAGER"
+        },
+        {
+          "name": "DATANODE"
+        },
+        {
+          "name": "HBASE_REGIONSERVER"
+        },
+        {
+          "name": "MAPREDUCE2_CLIENT"
+        },
+        {
+          "name": "YARN_CLIENT"
+        },
+        {
+          "name": "HDFS_CLIENT"
+        },
+        {
+          "name": "SPARK2_CLIENT"
+        },
+        {
+          "name": "TEZ_CLIENT"
+        },
+        {
+          "name": "ZOOKEEPER_CLIENT"
+        },
+        {
+          "name": "ATLAS_CLIENT"
+        },
+        {
+          "name": "HBASE_CLIENT"
+        },
+        {
+          "name": "HIVE_CLIENT"
+        },
+        {
+          "name": "METRICS_MONITOR"
+        }
+      ]
+    },
+    {
+      "name": "druid_worker",
+      "cardinality": "1+",
+      "components": [
+        {
+          "name": "METRICS_COLLECTOR"
+        },
+        {
+          "name": "DRUID_HISTORICAL"
+        },
+        {
+          "name": "DRUID_MIDDLEMANAGER"
+        },
+        {
+          "name": "DATANODE"
+        },
+        {
+          "name": "NIFI_MASTER"
+        },
+        {
+          "name": "HIVE_CLIENT"
+        },
+        {
+          "name": "ZOOKEEPER_CLIENT"
+        },
+        {
+          "name": "ATLAS_CLIENT"
+        },
+        {
+          "name": "SPARK2_CLIENT"
+        },
+        {
+          "name": "MAPREDUCE2_CLIENT"
+        },
+        {
+          "name": "TEZ_CLIENT"
+        },
+        {
+          "name": "METRICS_MONITOR"
+        }
+      ]
+    }
+  ],
+  "Blueprints": {
+    "blueprint_name": "connected-platform-3.0",
+    "stack_name": "HDP",
+    "stack_version": "3.0"
+  }
+}
