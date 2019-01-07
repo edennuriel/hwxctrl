@@ -87,6 +87,8 @@ forward-zone:
   name: "field.hortonworks.com"
   forward-addr: $IPA_IP
 EOF
+  # add a resolve line for field.hortonworks.com for Openstack setup as this will be lost....
+  echo 172.26.148.10 field.hortonworks.com >> /etc/hosts
 
   pkill -SIGHUP unbound
 }

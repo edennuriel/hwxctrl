@@ -2,7 +2,7 @@
 ### Cloudbreak# ##
 
 cb_prms(){
-  [[ ! -z $cbver ]] || export cbver="2.7.1"
+  [[ ! -z $cbver ]] || export cbver="2.9"
   export myip=$(hostname --ip-address)
   export user=enuriel
   export password=admin1234
@@ -44,6 +44,7 @@ EOF
 
 install_cbcli() {
   cb_prms
+  # if version provided use that, else use cbver if set, else use default if set else exit with error 
   curl -Ls https://s3-us-west-2.amazonaws.com/cb-cli/cb-cli_${cbver}_Linux_x86_64.tgz | sudo tar -xz -C /usr/local/bin cb
   addpath /usr/local/bin profile
   cb configure --server $(hostname --ip-address):$HTTPS_PORT --username ${user} --password ${password:-admin}
@@ -52,7 +53,7 @@ install_cbcli() {
 install_cbd_bin(){
   cb_prms
   mkdir -p ~/bin
-  export cbver=${1:-2.7.1} #latest ga is default
+  export cbver=${1:-2.9} #latest ga is default
   cbdir=~/cloudbreak/$cbver
   mkdir -p $cbdir && cd $cbdir 
   curl -Ls public-repo-1.hortonworks.com/HDP/cloudbreak/cloudbreak-deployer_"$cbver"_$(uname)_x86_64.tgz |  tar -xz -C /tmp cbd
@@ -62,6 +63,7 @@ install_cbd_bin(){
 }
 
 install_cbd_dev(){
+  cbver=${1:-$cbver}
   cb_prms
   mkdir ~/cloudbreak
   cd ~/cloudbreak
@@ -73,12 +75,13 @@ install_cbd_dev(){
   ln -s $GOPATH//src/github.com/hortonworks/cloudbreak-deployer
   cd cloudbreak-deployer
 
-  git checkout v${cbver}
+  git checkout ${cbver}
   make deps
   make build
   mkdir ~/bin > /dev/null 2>&1
   cp build/Linux/cbd ~/bin/cbd${cbver}
   alias cbd="/home/centos/bin/cbd${cbver}"
+  sudo mv /usr/bin/cbd /usr/bin/cbd.prev > /dev/null 2>&1
   sudo ln -s ~/bin/cbd${cbver} /usr/bin/cbd
 }
 
@@ -98,8 +101,9 @@ create_cbd_profile() {
 }
 launch_cloudbreak() {
   cb_prms
-  cbver=${1:-2.7.1}
+  cbver=${1:-2.9}
   cbdir=~/cloudbreak/$cbver
+  mkdir -p $cbdir > /dev/null 2>&1
   create_cbd_profile $cbdir
   ./cbd generate  && ./cbd start
 

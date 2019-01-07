@@ -21,7 +21,7 @@ install_python() {
   #install pyenv
   curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash 
   git clone https://github.com/pyenv/pyenv-virtualenvwrapper.git $(pyenv root)/plugins/pyenv-virtualenvwrapper
-  addpath ~/.pyenv/bin
+  addpath ~/.pyenv/bin profile
 
   #configure pyenv
   doq pyenv update

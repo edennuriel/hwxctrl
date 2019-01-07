@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 # select a method to get secrets...
 # simplest...
+source ~/hwxctrl/scripts/utils.sh
+source ~/hwxctrl/scripts/cbcli.sh
 echo scp secret file to source from your secured environment.
 echo '(eg: eden:# scp env.vars.dec enctrl:/tmp)'
 read -p "filename to source (eg: /tmp/env.vars.dec): " secrets

@@ -1,5 +1,5 @@
 {
-  "Blueprints": {"stack_name": "HDP", "stack_version": "3.0", "blueprint_name":"bp"},
+  "Blueprints": {"stack_name": "HDP", "stack_version": "3.0"},
   "host_groups": [
     {
       "cardinality": "1",

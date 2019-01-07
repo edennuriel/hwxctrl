@@ -2,7 +2,7 @@
   "inputs": {},
   "general": {
     "credentialName": "enops",
-    "name": "enseclab"
+    "name": "enhdp"
   },
   "placement": {
     "region": "RegionOne",
@@ -14,145 +14,77 @@
   "cluster": {
     "ambari": {
       "blueprintName": "bp",
-      "platformVersion": "HDP 3.0",
-      "userName": "admin",
-      "password": "",
-      "validateBlueprint": false,
-      "ambariSecurityMasterKey": "",
-      "enableSecurity": false,
+      "platformVersion": "HDP 3.1",
+      "ambariRepoDetailsJson": {
+        "version": "2.7.3.0",
+        "baseUrl": "http://public-repo-1.hortonworks.com/ambari/centos7/2.x/updates/2.7.3.0",
+        "gpgKeyUrl": "http://public-repo-1.hortonworks.com/ambari/centos7/2.x/updates/2.7.3.0/RPM-GPG-KEY/RPM-GPG-KEY-Jenkins"
+      },
       "ambariStackDetails": {
+        "version": "3.1",
+        "verify": false,
+        "enableGplRepo": false,
+        "stack": "HDP",
+        "repositoryVersion": "3.1.0.0-78",
+        "versionDefinitionFileUrl": "http://public-repo-1.hortonworks.com/HDP/centos7/3.x/updates/3.1.0.0/HDP-3.1.0.0-78.xml",
+        "stackOs": "centos7",
         "mpacks": [
           {
-            "name": "hdf32"
-          },
-          {
-            "name": "solr7"
+            "name": "hdf33"
           }
-        ],
-        "version": "3.0",
-        "verify": false,
-        "enableGplRepo": true,
-        "stack": "HDP",
-        "stackOs": "centos7"
-      }
+        ]
+      },
+      "userName": "admin",
+      "password": "admin1234",
+      "validateBlueprint": false,
+      "ambariSecurityMasterKey": "",
+      "enableSecurity": false
     },
     "rdsConfigNames": []
   },
+  "imageSettings": {
+    "imageCatalog": "cloudbreak-default",
+    "imageId": "02daad0f-eef5-4b40-6c4e-76ff068452d9"
+  },
+  "imageType": "base",
   "instanceGroups": [
     {
       "parameters": {},
       "template": {
         "parameters": {},
-        "instanceType": "d2.medium",
+        "instanceType": "m3.2xlarge",
         "volumeType": "HDD",
         "volumeCount": 0,
         "volumeSize": 100
       },
       "nodeCount": 1,
-      "group": "host_group_2",
-      "type": "CORE",
-      "recoveryMode": "MANUAL",
-      "securityGroup": {
-        "securityRules": [
-          {
-            "subnet": "0.0.0.0/0",
-            "protocol": "tcp",
-            "ports": "22"
-          }
-        ]
-      },
-      "recipeNames": [
-        "all-pre"
-      ]
-    },
-    {
-      "parameters": {},
-      "template": {
-        "parameters": {},
-        "instanceType": "d2.medium",
-        "volumeType": "HDD",
-        "volumeCount": 0,
-        "volumeSize": 100
-      },
-      "nodeCount": 1,
-      "group": "host_group_1",
+      "group": "master",
       "type": "GATEWAY",
       "recoveryMode": "MANUAL",
       "securityGroup": {
-        "securityRules": [
-          {
-            "subnet": "0.0.0.0/0",
-            "ports": "9443",
-            "protocol": "tcp"
-          },
-          {
-            "subnet": "0.0.0.0/0",
-            "ports": "22",
-            "protocol": "tcp"
-          },
-          {
-            "subnet": "0.0.0.0/0",
-            "protocol": "tcp",
-            "ports": "443"
-          }
+        "securityGroupIds": [
+          "12f286c3-5c42-43e0-8320-31b4a94cc226"
         ]
-      },
-      "recipeNames": [
-        "amb-pre",
-        "amb-post"
-      ]
+      }
     },
     {
       "parameters": {},
       "template": {
         "parameters": {},
-        "instanceType": "d2.medium",
+        "instanceType": "m3.xlarge",
         "volumeType": "HDD",
         "volumeCount": 0,
         "volumeSize": 100
       },
       "nodeCount": 1,
-      "group": "host_group_4",
+      "group": "worker",
       "type": "CORE",
       "recoveryMode": "MANUAL",
       "securityGroup": {
-        "securityRules": [
-          {
-            "subnet": "0.0.0.0/0",
-            "protocol": "tcp",
-            "ports": "22"
-          }
+        "securityGroupIds": [
+          "12f286c3-5c42-43e0-8320-31b4a94cc226"
         ]
-      },
-      "recipeNames": [
-        "all-pre"
-      ]
-    },
-    {
-      "parameters": {},
-      "template": {
-        "parameters": {},
-        "instanceType": "d2.medium",
-        "volumeType": "HDD",
-        "volumeCount": 0,
-        "volumeSize": 100
-      },
-      "nodeCount": 1,
-      "group": "host_group_3",
-      "type": "CORE",
-      "recoveryMode": "MANUAL",
-      "securityGroup": {
-        "securityRules": [
-          {
-            "subnet": "0.0.0.0/0",
-            "protocol": "tcp",
-            "ports": "22"
-          }
-        ]
-      },
-      "recipeNames": [
-        "all-pre"
-      ]
+      }
     }
   ],
   "network": {
@@ -164,10 +96,5 @@
   },
   "stackAuthentication": {
     "publicKeyId": "field"
-  },
-  "imageSettings": {
-    "imageCatalog": "cloudbreak-default",
-    "imageId": "10c4e0ce-d841-41e6-5c2c-1f5fdbc7cf6f"
-  },
-  "imageType": "prewarmed"
+  }
 }

@@ -7,7 +7,8 @@ sourceall
 prep() {
   dolog yum upgrade -y 
   dolog yum -y groupinstall "Development Tools" 
-  dolog yum -y install jq git readline-devel zlib-devel bzip2-devel sqlite-devel openssl-devel bind-utils jq wget 
+  dolog yum install epel-release -y
+  dolog yum -y install git wget jq readline-devel zlib-devel bzip2-devel sqlite-devel openssl-devel bind-utils 
 }
 
 
@@ -68,6 +69,6 @@ install_hwxctrl_simple() {
 	echo launch_cloudbreak
 	launch_cloudbreak
 	echo install_cbcli
-        export cbver=2.9
+        export cbver=rc-2.9
 	install_cbcli
 }

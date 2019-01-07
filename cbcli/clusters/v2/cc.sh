@@ -4,12 +4,17 @@ source ~/hwxctrl/scripts/cb.sh
 source ~/hwxctrl/scripts/cbcli.sh
 if [[ -z $1 ]] 
 then 
-	source ../../bootstrap.sh
-	#cd ../../blueprints
+	enops="$(cb credential list | jq '..|.Name?|test("enops")')"
+	echo "credential enops - $enops"
+	[[ "$enops" == "true" ]] ||  source ../../bootstrap.sh
 	cbadd_blueprint bp.json
-	cbadd_mpacks http://public-repo-1.hortonworks.com/HDF/centos7/3.x/updates/3.2.0.0/tars/hdf_ambari_mp/hdf-ambari-mpack-3.2.0.0-520.tar.gz hdf32
-	cbadd_mpacks http://public-repo-1.hortonworks.com/HDP-SOLR/hdp-solr-ambari-mp/solr-service-mpack-4.0.0.tar.gz solr7
+	echo "blue print add rc=$?"
+	cbadd_mpack_hdf33
+	echo "add hdf32 rc=$?"
+	cbadd_mpack_solr7
+	echo "add solr rc=$?"
 	~/hwxctrl/scripts/prepare_recpies.sh
+	echo "prep recepies rc=$?"
 fi
-
-cb cluster create --cli-input-json cc.json
+pass={$1:-admin1234}
+cb cluster create --input-json-param-password=$pass --cli-input-json cc.json
