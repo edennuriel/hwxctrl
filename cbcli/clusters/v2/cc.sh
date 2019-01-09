@@ -13,7 +13,7 @@ then
 	echo "add hdf32 rc=$?"
 	cbadd_mpack_solr7
 	echo "add solr rc=$?"
-	~/hwxctrl/scripts/prepare_recpies.sh
+	~/hwxctrl/scripts/prepare_recpies.sh > /dev/null > 2>&null
 	echo "prep recepies rc=$?"
 fi
 pass={$1:-admin1234}

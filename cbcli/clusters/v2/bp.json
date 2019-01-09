@@ -29,7 +29,7 @@
         {"name": "RESOURCEMANAGER"}
       ],
       "configurations": [],
-      "name": "host_group_2"
+      "name": "master1"
     },
     {
       "cardinality": "1",
@@ -65,7 +65,7 @@
         {"name": "RESOURCEMANAGER"}
       ],
       "configurations": [],
-      "name": "host_group_1"
+      "name": "master2"
     },
     {
       "cardinality": "1",
@@ -91,7 +91,7 @@
         {"name": "PHOENIX_QUERY_SERVER"}
       ],
       "configurations": [],
-      "name": "host_group_4"
+      "name": "worker"
     },
     {
       "cardinality": "1",
@@ -118,7 +118,7 @@
         {"name": "HIVE_CLIENT"}
       ],
       "configurations": [],
-      "name": "host_group_3"
+      "name": "master3"
     }
   ],
   "settings": [

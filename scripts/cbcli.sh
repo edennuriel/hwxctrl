@@ -14,7 +14,7 @@ cbadd_blueprint() {
   bp_name=${bp_name/.*}
   [[ ! -z "$2" ]] && bp_name="$2"
   [[ $(cb blueprint list | jq -r '.[]|.Name' | grep -x $bp_name >/dev/null 2>&1 ) ]] && echo removing exiting blueprint "$bp_name" && cb blueprint delete --name "$bp_name"
-  cb blueprint create $bp --name "$bp_name"
+  [[ "$?"=="0" ]] && cb blueprint create $bp --name "$bp_name"
 }
 
 cbadd_ldap_auth() {
@@ -52,9 +52,10 @@ cbadd_cred() {
 }
 
 cbadd_mpacks(){
-  [[ -z "$1" ]] && echo "usage: ${FUNCNAME[0]} <url> [name]" && return
+  [[ -z "$2" ]] && echo "usage: ${FUNCNAME[0]} <url> [name]" && return
   name=${2:-hdf32}
-  cb mpack create --url "$1" --name "$name"
+  mp="$(cb mpack list | jq '..|.Name?|test("'$2'")'|grep -i true)"
+  [[ "$mp" == "true" ]] || cb mpack create --url "$1" --name "$name"
 
 }
 

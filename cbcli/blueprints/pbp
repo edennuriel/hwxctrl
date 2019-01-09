@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 'use strict';
+let fname='cc.json'
 const fs = require('fs');
-let rawdata = fs.readFileSync('a.json');
+let rawdata = fs.readFileSync(fname);
 var pp=require("json-stringify-pretty-compact");
 let j=JSON.parse(rawdata);
 console.log(pp(j));;

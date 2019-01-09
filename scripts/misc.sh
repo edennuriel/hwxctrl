@@ -28,4 +28,8 @@ rmcrt() {
 #cat setup_ipa.sh | perl -ne '$g{"$1"}.="$2," if ($_=~/group-add-member (\w+) --users=(\w+)/);' -e 'END {for $k (keys %g) {$l=$k.":".$g{$k}."\n";$l =~ s/,$//;print $l}}'
 #json..
 #cat setup_ipa.sh | perl -ne '$g{"$1"}.="$2," if ($_=~/group-add-member (\w+) --users=(\w+)/);' -e 'END {for $k (keys %g) {print "{ \"$k\" } : [ ";$l=$g{$k};chop $l;print "$l ]}\n"}}'
+# get prop from blueprint
+# jq -S '.|.configurations[][].properties|keys[]|select(test("db|database|port"))' hdpbaseandnifi.json
+# jq '.|{Blueprints,host_groups,configurations:{[configurations[]|.]}}'
+# jq '.configurations[][]|.properties?|to_entries|map(select(.key|tostring|test("db|database|port")))[]|.key' hdpbaseandnifi.json
 

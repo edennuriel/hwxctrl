@@ -318,7 +318,7 @@ all_pre() {
 amb_pre() {
   all_pre
   ambari_mysql
-  for db in ranger registry druid superset streamline 
+  for db in ranger rangerkms registry oozie druid superset streamline 
   do 
     create_db $db
   done 
