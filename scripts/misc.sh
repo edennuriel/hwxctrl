@@ -33,3 +33,6 @@ rmcrt() {
 # jq '.|{Blueprints,host_groups,configurations:{[configurations[]|.]}}'
 # jq '.configurations[][]|.properties?|to_entries|map(select(.key|tostring|test("db|database|port")))[]|.key' hdpbaseandnifi.json
 
+# del conf and add blueprint name
+# jq 'del(.configurations)|.Blueprints|=.+{"blueprint_name":"bp"}'
+# jq '[path(.configurations[][].properties[]|..)|select(.[-1]|test("db|port|database|user$|pass$"))] as $p|$p[]|map(tostring)|join("::")' hdpbaseandnifi.json
