@@ -5,7 +5,7 @@ join() {
 }
 
 sourceall() {
-	for sh in $(awk '{print $1}' ~/hwxctrl/scripts/.ordered); do source "$sh" ; done
+	for sh in $(awk '{print $1}' ~/hwxctrl/scripts/.ordered); do source ~/hwxctrl/scripts/$sh ; done
 }
 
 install() {

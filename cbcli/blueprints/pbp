@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 'use strict';
-let fname='cc.json'
+var argv = require('minimist')(process.argv.slice(2));
+let fname=argv._[0]
 const fs = require('fs');
 let rawdata = fs.readFileSync(fname);
 var pp=require("json-stringify-pretty-compact");

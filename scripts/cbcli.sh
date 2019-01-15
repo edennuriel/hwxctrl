@@ -13,7 +13,11 @@ cbadd_blueprint() {
   bp_name=$(basename $bp_file)
   bp_name=${bp_name/.*}
   [[ ! -z "$2" ]] && bp_name="$2"
-  [[ $(cb blueprint list | jq -r '.[]|.Name' | grep -x $bp_name >/dev/null 2>&1 ) ]] && echo removing exiting blueprint "$bp_name" && cb blueprint delete --name "$bp_name"
+  if [[ $(cb blueprint list | jq 'any(.Name=="bp")') == "true" ]]
+  then
+	echo removing exiting blueprint "$bp_name" 
+        cb blueprint delete --name "$bp_name"
+  fi
   [[ "$?"=="0" ]] && cb blueprint create $bp --name "$bp_name"
 }
 

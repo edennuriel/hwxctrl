@@ -179,7 +179,44 @@ EOF
 }
 ####
 
-ambari_ldap_setup() {
+ ambari_ldap_setup() {
+   [[ -z $(rpm -qa | grep expect) ]] && yum install -y expect > /dev/null 2>&1
+   export PASSWORD=${1:-admin1234}
+   export ADMIN=${2:-admin}
+   export LDGRPOC="${3:ipausergroup}"
+   export LDUSROC="${4:posixaccount}"
+
+   ambari-server setup-ldap --ldap-force-setup \
+   --ldap-ur='enctrl.field.hortonworks.com:636' \
+   --ldap-secondary-url='enctrl.field.hortonworks.com:636' \
+   --ldap-ssl='true' \
+   --ldap-type='IPA' \
+   --ldap-user-class="'"${LDUSROC}"'" \
+   --ldap-user-attr='uid' \
+   --ldap-group-class="'"${LDGRPOC}"'" \
+   --ldap-group-attr='cn' \
+   --ldap-member-attr='member' \
+   --ldap-dn='dn' \
+   --ldap-base-dn='cn=accounts,dc=field,dc=hortonworks,dc=com' \
+   --ldap-manager-dn='uid=ldapbind,cn=users,cn=accounts,dc=field,dc=hortonworks,dc=com' \
+   --ldap-manager-password="$PASSWORD" \
+   --ldap-referral="follow" \
+   --ldap-bind-anonym="fasle" \
+   --ldap-sync-username-collisions-behavior="skip" \
+   --ldap-sync-disable-endpoint-identification="true" \
+   --ldap-force-lowercase-usernames="false" \
+   --ldap-pagination-enabled="true" \
+   --ambari-admin-username="$ADMIN" \
+   --ambari-admin-password="$PASSWORD" \
+   --truststore-type="jks" \
+   --truststore-path="/etc/pki/java/cacerts" \
+   --truststore-password="$PASSWORD" \
+   --ldap-save-settings \
+   --ldap-force-setup \
+   --truststore-reconfigure
+ }
+
+ambari_ldap_setup_expect() {
   [[ -z $(rpm -qa | grep expect) ]] && yum install -y expect > /dev/null 2>&1
   export PASSWORD=${1:-admin1234}
   export ADMIN=${2:-admin}

@@ -1,0 +1,49 @@
+[root@enhdp-16-master-0 post-cluster-install]#  ambari-server setup-ldap
+Using python  /usr/bin/python
+Enter Ambari Admin login: admin
+Enter Ambari Admin password:
+
+Fetching LDAP configuration from DB.
+Primary LDAP Host (ldap.ambari.apache.org): field.hortonworks.com
+Primary LDAP Port (389):
+Secondary LDAP Host <Optional>:
+Secondary LDAP Port <Optional>:
+Use SSL [true/false] (false):
+User object class (posixUser): posixAccount
+User ID attribute (uid):
+Group object class (posixGroup):
+Group name attribute (cn):
+Group member attribute (memberUid): member
+Distinguished name attribute (dn):
+Search Base (dc=ambari,dc=apache,dc=org): cn=users,cn=accounts,dc=field,dc=hortonworks,dc=com
+Referral method [follow/ignore] (follow):
+Bind anonymously [true/false] (false):
+Bind DN (uid=ldapbind,cn=users,dc=ambari,dc=apache,dc=org): uid=ldapbind,cn=users,cn=accounts,dc=field,dc=hortonworks,dc=com
+Enter Bind DN Password:
+Confirm Bind DN Password:
+Handling behavior for username collisions [convert/skip] for LDAP sync (skip): convert
+Force lower-case user names [true/false]:
+Results from LDAP are paginated when requested [true/false]:
+====================
+Review Settings
+====================
+Primary LDAP Host (ldap.ambari.apache.org):  field.hortonworks.com
+Primary LDAP Port (389):  389
+Use SSL [true/false] (false):  false
+User object class (posixUser):  posixAccount
+User ID attribute (uid):  uid
+Group object class (posixGroup):  posixGroup
+Group name attribute (cn):  cn
+Group member attribute (memberUid):  member
+Distinguished name attribute (dn):  dn
+Search Base (dc=ambari,dc=apache,dc=org):  cn=users,cn=accounts,dc=field,dc=hortonworks,dc=com
+Referral method [follow/ignore] (follow):  follow
+Bind anonymously [true/false] (false):  false
+Handling behavior for username collisions [convert/skip] for LDAP sync (skip):  convert
+ambari.ldap.connectivity.bind_dn: uid=ldapbind,cn=users,cn=accounts,dc=field,dc=hortonworks,dc=com
+ambari.ldap.connectivity.bind_password: *****
+Save settings [y/n] (y)? y
+Saving LDAP properties...
+Saving LDAP properties finished
+Ambari Server 'setup-ldap' completed successfully.
+
