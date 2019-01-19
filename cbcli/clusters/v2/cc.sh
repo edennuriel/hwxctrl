@@ -4,7 +4,7 @@ source ~/hwxctrl/scripts/cb.sh
 source ~/hwxctrl/scripts/cbcli.sh
 if [[ -z $1 ]] 
 then 
-	enops="$(cb credential list | jq '..|.Name?|test("enops")')"
+	enops="$(cb credential list | jq '..|.Name?|test("enops")')" 
 	echo "credential enops - $enops"
 	[[ "$enops" == "true" ]] ||  source ../../bootstrap.sh
 	cbadd_blueprint bp.json
@@ -13,7 +13,7 @@ then
 	echo "add hdf32 rc=$?"
 	cbadd_mpack_solr7
 	echo "add solr rc=$?"
-	~/hwxctrl/scripts/prepare_recpies.sh > /dev/null > 2>&null
+	~/hwxctrl/scripts/prepare_recpies.sh > /dev/null 2>&1
 	echo "prep recepies rc=$?"
 fi
 pass={$1:-admin1234}

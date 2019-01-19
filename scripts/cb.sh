@@ -44,8 +44,9 @@ EOF
 
 install_cbcli() {
   cb_prms
-  # if version provided use that, else use cbver if set, else use default if set else exit with error 
-  curl -Ls https://s3-us-west-2.amazonaws.com/cb-cli/cb-cli_${cbver}_Linux_x86_64.tgz | sudo tar -xz -C /usr/local/bin cb
+  cbfullver=$(select_cbd_ver)
+  #echo curl -Ls https://s3-us-west-2.amazonaws.com/cb-cli/cb-cli_${cbfullver}_Linux_x86_64.tgz 
+  curl -Ls https://s3-us-west-2.amazonaws.com/cb-cli/cb-cli_${cbfullver}_Linux_x86_64.tgz | sudo tar -xz -C /usr/local/bin cb
   addpath /usr/local/bin profile
   cb configure --server $(hostname --ip-address):$HTTPS_PORT --username ${user} --password ${password:-admin}
 }
@@ -62,20 +63,40 @@ install_cbd_bin(){
   $cbdir/cbd --version
 }
 
+select_cbd_ver() {
+  cbver="${1:-$cbver}"
+  regex='([0-9]+\.[0-9]+)[\.]*([0-9]*)[-]*[rc|dev]*[\.]*([0-9]*)'
+  if [[ "$cbver" =~ $regex ]]
+  then
+    if [[ -z "${BASH_REMATCH[2]}" ]] || [[ -z "${BASH_REMATCH[3]}" ]]
+    then
+        mv="$(git tag -l "$cbver*rc*"  | awk -F. '{print $NF}' | sort -rn | head -1)"
+        [[ -z $mv ]] && mv="$(git tag -l "$cbver*dev*"  | awk -F. '{print $NF}' | sort -rn | head -1)"
+        cbfullver="$(git tag -l "$cbver*$mv" | sort | head -1)"
+    else 
+      cbfullver=$cbver
+    fi
+  else
+      echo "Bad version ($cbver) format should be x.y or x.y.z-rc/dev.b" && return 
+  fi
+  
+  [[ -z "$(git tag -l "$cbfullver")" ]] && echo "version (${cbver}/${cbfullver}) not available" && return  
+  echo "$cbfullver" 
+}
+
 install_cbd_dev(){
-  cbver=${1:-$cbver}
   cb_prms
+  cbver=${1:-$cbver}
   mkdir ~/cloudbreak
   cd ~/cloudbreak
   # check if go is installed and if not..
   # install_go
-
   go get -u github.com/jteeuwen/go-bindata
   go get -u github.com/hortonworks/cloudbreak-deployer
   ln -s $GOPATH//src/github.com/hortonworks/cloudbreak-deployer
   cd cloudbreak-deployer
-
-  git checkout ${cbver}
+   
+  gitchekout select_cbd_ver $cbver 
   make deps
   make build
   mkdir ~/bin > /dev/null 2>&1
@@ -98,6 +119,8 @@ create_cbd_profile() {
   echo "export PUBLIC_HTTP_PORT=$HTTP_PORT" >> Profile
   echo "export PUBLIC_HTTPS_PORT=$HTTPS_PORT" >> Profile
   echo "export CERT_VALIDATION=false " >> Profile
+  echo "export CB_HOST_DISCOVERY_CUSTOM_DOMAIN=field.hortonworks.com" >> Profile
+  echo "export UAA_ZONE_DOMAIN=field.hortonworks.com" >> Profile
 }
 launch_cloudbreak() {
   cb_prms

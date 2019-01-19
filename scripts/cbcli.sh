@@ -115,5 +115,5 @@ cbadd_mpack_hdf32() {
     cbadd_mpacks http://public-repo-1.hortonworks.com/HDF/centos7/3.x/updates/3.2.0.0/tars/hdf_ambari_mp/hdf-ambari-mpack-3.2.0.0-520.tar.gz hdf32
 }
 cbadd_mpack_solr7() {
-    cbadd_mpacks http://public-repo-1.hortonworks.com/HDP-SOLR/hdp-solr-ambari-mp/solr-service-mpack-4.0.0.tar.gz solr
+    cbadd_mpacks http://public-repo-1.hortonworks.com/HDP-SOLR/hdp-solr-ambari-mp/solr-service-mpack-4.0.0.tar.gz solr7
 }

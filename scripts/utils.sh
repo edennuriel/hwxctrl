@@ -1,5 +1,17 @@
 #!/usr/bin/env bash -x
 
+print_array ()
+{
+    a=("$@");
+    [[ ${#a[@]} == 0 ]] && return 0 
+    i=0;
+    for p in "${a[@]}";
+    do
+        echo "$i - $p";
+        i=$((i+1));
+    done
+}
+
 join() {
   sed ':a;N;$!ba;s/\n/'"${1:-,}"'/g'  
 }

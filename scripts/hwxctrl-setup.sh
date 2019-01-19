@@ -65,7 +65,7 @@ install_hwxctrl_simple() {
         # get reference and configure cb (credentials, dbs, bps, etc...)
 	# clone repos
 	echo install_cbd_bin
-	install_cbd_bin 2.9
+	install_cbd_dev 2.9
 	echo launch_cloudbreak
 	launch_cloudbreak
 	echo install_cbcli
