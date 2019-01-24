@@ -6,7 +6,7 @@
 
 LOC=`pwd`
 PROP=ambari.props
-source $LOC/$PROP
+source $LOC/$PROP $@
 CURLOPTS='-s'
 sleep="sleep "
 #############
@@ -46,6 +46,12 @@ ambget() {
 ambgets() {
   CURLOPTS="-s"
   ambcli GET "$1"
+}
+
+ambclsget() {
+  CURLOPTS="-s"
+  ambget clusters/${CLUSTER_NAME}/$1
+
 }
 
 ambservices() {

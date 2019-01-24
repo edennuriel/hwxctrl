@@ -36,3 +36,10 @@ rmcrt() {
 # del conf and add blueprint name
 # jq 'del(.configurations)|.Blueprints|=.+{"blueprint_name":"bp"}'
 # jq '[path(.configurations[][].properties[]|..)|select(.[-1]|test("db|port|database|user$|pass$"))] as $p|$p[]|map(tostring)|join("::")' hdpbaseandnifi.json
+# cluster nodes 
+# cb cluster describe --name enhdp | jq '.instanceGroups[]|[.group ,.metadata[].privateIp]|join ("-")'
+# get all configuration versions
+# ambclsget configurations/service_config_versions
+# check configurations for a given service
+# jq '.items[].configurations[]|{(.version|tostring):.type}|to_entries[]|select(.key|tonumber>3)' a
+
